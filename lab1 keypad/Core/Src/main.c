@@ -110,123 +110,138 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
 	  static uint32_t timestamp = 0;
-	  	  if(HAL_GetTick() >= timestamp){
-	  		  timestamp = HAL_GetTick() + 10;
-	  		  ReadMatrixButton_1Row();
-	  	  }
-		  MatrixButtonCurrent = ButtonMatrix;
-		  switch(state)
-		  {
-		  case 0:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==512){
+	  if(HAL_GetTick() >= timestamp){
+		  timestamp = HAL_GetTick() + 10;
+		  ReadMatrixButton_1Row();
+	  }
+	  MatrixButtonCurrent = ButtonMatrix;
+	  switch(state)
+	  {
+	  case 0:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==512){
 				  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,0);
 				  state = 1;
 			  }
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 0;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096){
+			  else if (MatrixButtonCurrent==0)state = 0;
+			  else if (MatrixButtonCurrent==4096){
 				  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,0);
 				  state = 0;
 			  }
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)){
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384){
 				  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,0);
 				  state = 0;
 			  }
 			  else {
 				  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,0);
-				  state = 1;
+				  state = 12;
 			  }
-			  break;
-		  case 1:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==2)state = 2;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 1;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 1;
+		  }
+		  break;
+	  case 1:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==2)state = 2;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 1;
 			  else state = 12;
-			  break;
-		  case 2:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==1024)state = 3;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 2;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 2;
+		  }
+		  break;
+	  case 2:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==1024)state = 3;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 2;
 			  else state = 12;
-			  break;
-		  case 3:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==2)state = 4;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 3;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 3;
+		  }
+		  break;
+	  case 3:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==2)state = 4;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 3;
 			  else state = 12;
-			  break;
-		  case 4:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==8)state = 5;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 4;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 4;
+		  }
+		  break;
+	  case 4:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==8)state = 5;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 4;
 			  else state = 12;
-			  break;
-		  case 5:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==32)state = 6;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 5;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 5;
+		  }
+		  break;
+	  case 5:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==32)state = 6;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 5;
 			  else state = 12;
-			  break;
-		  case 6:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==8)state = 7;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 6;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 6;
+		  }
+		  break;
+	  case 6:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==8)state = 7;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 6;
 			  else state = 12;
-			  break;
-		  case 7:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==8)state = 8;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 7;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 7;
+		  }
+		  break;
+	  case 7:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==8)state = 8;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 7;
 			  else state = 12;
-			  break;
-		  case 8:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==8)state = 9;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 8;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 8;
+		  }
+		  break;
+	  case 8:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==8)state = 9;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 8;
 			  else state = 12;
-			  break;
-		  case 9:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==512)state = 10;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 9;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 9;
+		  }
+		  break;
+	  case 9:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==512)state = 10;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 9;
 			  else state = 12;
-			  break;
-		  case 10:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==256)state = 11;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 10;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 10;
+		  }
+		  break;
+	  case 10:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==256)state = 11;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 10;
 			  else state = 12;
-			  break;
-		  case 11:
-			  if(MatrixButtonLast==0 && MatrixButtonCurrent==32768){
+		  }
+		  break;
+	  case 11:
+		  if(MatrixButtonLast==0){
+			  if(MatrixButtonCurrent==32768){
 				  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,1);
 				  state = 0;
 			  }
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 11;
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==4096)state = 0;
-			  else if ((MatrixButtonLast==0 && MatrixButtonCurrent==128) || (MatrixButtonLast==0 && MatrixButtonCurrent==2048) || (MatrixButtonLast==0 && MatrixButtonCurrent==8192) || (MatrixButtonLast==0 && MatrixButtonCurrent==16384)) state = 11;
+			  else if (MatrixButtonCurrent==4096)state = 0;
+			  else if (MatrixButtonCurrent==128 || MatrixButtonCurrent==2048 || MatrixButtonCurrent==8192 || MatrixButtonCurrent==16384||MatrixButtonCurrent==0) state = 11;
 			  else state = 12;
-			  break;
-		  case 12:
-			  if (MatrixButtonLast==0 && MatrixButtonCurrent==4096){
+		  }
+		  break;
+	  case 12:
+		  if(MatrixButtonLast==0){
+			  if (MatrixButtonCurrent==4096){
 				  state = 0;
 			  }
-			  else if (MatrixButtonLast==0 && MatrixButtonCurrent==0)state = 12;
 			  else state = 12;
-			  break;
 		  }
-	  MatrixButtonLast = MatrixButtonCurrent;
+		  break;
+	  }
+	MatrixButtonLast = MatrixButtonCurrent;
+    /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
